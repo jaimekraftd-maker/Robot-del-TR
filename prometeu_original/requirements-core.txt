@@ -1,0 +1,7 @@
+# Dependencias del NÚCLEO cognitivo (tr_brain). Puro Python, sin ROS.
+# Instálalas con:  pip install -r requirements-core.txt
+google-generativeai>=0.5
+python-dotenv>=1.0
+# Nota: SQLite ya viene incluido en la librería estándar de Python (módulo sqlite3).
+# Las dependencias de los NODOS (opencv, vosk, pyttsx3, rclpy...) van aparte,
+# en install.sh, porque solo hacen falta en el robot, no para testear el cerebro.
