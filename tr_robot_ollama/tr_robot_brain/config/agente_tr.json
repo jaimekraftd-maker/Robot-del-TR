@@ -1,0 +1,33 @@
+{
+  "_comentario": "Parámetros del agente de Claude (Claude Agent SDK) que hace de mente de TR. Lo leen brain_node, vision_node y los scripts. Las variables de entorno TR_* tienen prioridad sobre este fichero (ver README, 'Parámetros del agente TR'). Las claves que empiezan por '_' son comentarios.",
+
+  "motor": "claude",
+  "_motor": "claude = Claude con Ollama de respaldo · ollama = 100% local (variable TR_LLM).",
+
+  "identidad": "Eres TR, un robot físico con cuerpo propio: una cabeza con cámara, micrófono, altavoz y una mandíbula que se mueve cuando hablas. Habla siempre en español. Todo lo que dices se pronuncia en voz alta, así que no uses emojis, listas ni formato.",
+  "_identidad": "Lo primero del system prompt. Después van la etapa de desarrollo, la personalidad, los hechos, lo que ve y las emociones.",
+
+  "claude": {
+    "modelo": "claude-opus-5-5",
+    "modelo_alternativo": "",
+    "palabras_por_token": 0.6,
+    "pausa_tras_fallo_s": 60,
+    "_comentario": "modelo: el de todas las tareas que no digan otro (TR_CLAUDE_MODEL). modelo_alternativo: si el principal está saturado, Claude Code usa este (vacío = ninguno). palabras_por_token: convierte el num_predict de cada etapa en el límite de palabras que se le pide a Claude. pausa_tras_fallo_s: tras un fallo pasajero, cuánto tiempo se usa Ollama antes de volver a probar Claude."
+  },
+
+  "tareas": {
+    "_comentario": "Una entrada por cada cosa que hace TR con Claude. esfuerzo: low | medium | high | xhigh | max (más = piensa más, tarda más y gasta más de tu plan). modelo: vacío = el de 'claude.modelo'.",
+    "conversacion": { "esfuerzo": "low", "modelo": "" },
+    "hechos": { "esfuerzo": "medium", "modelo": "" },
+    "personalidad": { "esfuerzo": "medium", "modelo": "" },
+    "maduracion": { "esfuerzo": "medium", "modelo": "" },
+    "vision": { "esfuerzo": "low", "modelo": "", "cada_s": 60, "max_palabras": 60, "timeout_s": 30 }
+  },
+
+  "ollama": {
+    "modelo": "gemma2:2b",
+    "respaldo": true,
+    "url": "http://localhost:11434/api/generate",
+    "_comentario": "Motor local. respaldo: usarlo cuando Claude falla (TR_OLLAMA_FALLBACK). La visión local (moondream) va aparte, en vision_node."
+  }
+}

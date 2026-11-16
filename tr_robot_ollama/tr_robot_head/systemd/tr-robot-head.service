@@ -1,0 +1,30 @@
+# Servicio systemd: arranca los nodos de la cabeza de TR al encender la Pi Zero 2 W.
+# scripts/install_head.sh lo instala en /etc/systemd/system/ sustituyendo __USER__.
+#
+#   sudo systemctl status tr-robot-head     # ver si está corriendo
+#   journalctl -u tr-robot-head -f          # ver los logs en directo
+#   sudo systemctl restart tr-robot-head    # reiniciar tras cambiar código
+#   sudo systemctl disable tr-robot-head    # que no arranque solo
+
+[Unit]
+Description=TR Robot - nodos de la cabeza (ROS 2 Humble)
+Wants=network-online.target
+After=network-online.target sound.target
+
+[Service]
+Type=simple
+User=__USER__
+# Configuración (ROS_DOMAIN_ID, workspace, discovery server...): editar este fichero
+EnvironmentFile=/etc/default/tr-robot-head
+# El ahorro de energía del Wi-Fi de la Pi mete cientos de ms de latencia a ROS.
+# "+" = se ejecuta como root; "-" = si falla (otra interfaz), sigue igualmente.
+ExecStartPre=-+/usr/sbin/iw dev wlan0 set power_save off
+ExecStart=/usr/local/bin/tr-robot-head-start
+Restart=on-failure
+RestartSec=5
+# SIGINT = Ctrl+C: ros2 launch cierra los nodos limpiamente
+KillSignal=SIGINT
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

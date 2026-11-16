@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>tr_robot_brain</name>
+  <version>0.2.0</version>
+  <description>Cerebro de TR (portátil): reconocimiento de voz, conversación con Claude (claude-opus-5-5, con Ollama gemma2:2b de respaldo offline), visión (Claude, con moondream de respaldo), reconocimiento facial local, memoria, emociones y etapas de desarrollo.</description>
+  <maintainer email="jaimekraftd@gmail.com">Jaime</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-requests</exec_depend>
+  <!-- Por pip (scripts/install_brain.sh): claude-agent-sdk, SpeechRecognition, vosk,
+       face_recognition, matplotlib. Además Ollama con gemma2:2b y moondream. -->
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Perfil de Fast DDS para ROS 2 dentro de WSL2 con red "mirrored".
+
+  El problema: en WSL "mirrored", un datagrama UDP de más de 1472 bytes enviado
+  a 127.0.0.1 se pierde (se fragmenta y los fragmentos no llegan). Fast DDS manda
+  a 127.0.0.1 todo lo que va a otro proceso del mismo PC, y cuando un nodo
+  arranca más tarde que otro (un nodo que se reinicia, `ros2 topic echo`...), el
+  antiguo le presenta todos sus publicadores en un mensaje grande. Ese mensaje se
+  pierde y el nodo nuevo nunca ve a los demás.
+
+  La solución: mensajes UDP de 1400 bytes como máximo. Los datos grandes (JPEG,
+  audio) van por memoria compartida o en trozos. Ni los topics ni los nodos cambian.
+
+  install_brain.sh lo activa en ~/.bashrc cuando detecta WSL:
+      export FASTRTPS_DEFAULT_PROFILES_FILE=~/ros2_ws/src/tr_robot_ollama/scripts/wsl/fastdds_wsl.xml
+-->
+<dds>
+  <profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+    <transport_descriptors>
+      <transport_descriptor>
+        <transport_id>tr_shm</transport_id>
+        <type>SHM</type>
+      </transport_descriptor>
+      <transport_descriptor>
+        <transport_id>tr_udp</transport_id>
+        <type>UDPv4</type>
+        <maxMessageSize>1400</maxMessageSize>
+      </transport_descriptor>
+    </transport_descriptors>
+
+    <participant profile_name="tr_wsl" is_default_profile="true">
+      <rtps>
+        <userTransports>
+          <transport_id>tr_shm</transport_id>
+          <transport_id>tr_udp</transport_id>
+        </userTransports>
+        <useBuiltinTransports>false</useBuiltinTransports>
+      </rtps>
+    </participant>
+  </profiles>
+</dds>

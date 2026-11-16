@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>tr_robot_head</name>
+  <version>0.2.0</version>
+  <description>Cabeza de TR (Raspberry Pi Zero 2 W): nodos ligeros de cámara, micrófono, voz (espeak-ng), servos (PCA9685) y LEDs. Sin IA: todo el pensamiento va en tr_robot_brain.</description>
+  <maintainer email="jaimekraftd@gmail.com">Jaime</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-pyaudio</exec_depend>
+  <!-- Los instala scripts/install_head.sh (no todos tienen clave de rosdep):
+       apt: espeak-ng, alsa-utils, python3-gpiozero, python3-lgpio
+       pip: adafruit-circuitpython-servokit -->
+
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
